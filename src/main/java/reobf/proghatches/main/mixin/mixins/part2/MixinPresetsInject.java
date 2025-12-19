@@ -16,15 +16,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import codechicken.nei.CollapsibleItems;
 import codechicken.nei.recipe.StackInfo;
 import gregtech.api.GregTechAPI;
 import reobf.proghatches.main.Config;
 import reobf.proghatches.main.MyMod;
 import reobf.proghatches.main.registration.Registration;
 
-@Mixin( // require = 1,
-    targets = "codechicken.nei.CollapsibleItems",
-    remap = false)
+@Mixin(value = CollapsibleItems.class, remap = false)
 
 public class MixinPresetsInject {
 

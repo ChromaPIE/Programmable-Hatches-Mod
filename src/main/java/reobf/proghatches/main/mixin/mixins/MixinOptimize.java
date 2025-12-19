@@ -14,9 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import appeng.api.networking.crafting.ICraftingJob;
 import appeng.api.networking.crafting.ICraftingPatternDetails;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.container.implementations.ContainerOptimizePatterns;
 import reobf.proghatches.gt.metatileentity.util.IDisallowOptimize;
 
-@Mixin(targets = "appeng.container.implementations.ContainerOptimizePatterns", remap = false)
+@Mixin(value = ContainerOptimizePatterns.class, remap = false)
 public class MixinOptimize {
 
     private Field f;

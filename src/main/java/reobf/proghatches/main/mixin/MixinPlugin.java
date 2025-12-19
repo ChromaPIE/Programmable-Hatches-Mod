@@ -163,7 +163,6 @@ public static boolean loaded;
         retLate.add("eucrafting." + "MixinCoverInsertion");
         if (FMLLaunchHandler.side()
             .isClient()) {
-            retLate.add("eucrafting." + "MixinWirelessRename");
         }
         retLate.add("eucrafting." + "MixinInvTracker");
         retLate.add("MixinAEAdaptorSkipStackSizeCheck");
@@ -218,8 +217,6 @@ public static boolean loaded;
             	
             	//  wo/ fluid
                 retLate.add("MixinPatternEncodingCiruitSpecialTreatment2"); 
-                //  with fluid
-                retLate.add("MixinPatternEncodingCiruitSpecialTreatmentNeo");
                 
                 
             }

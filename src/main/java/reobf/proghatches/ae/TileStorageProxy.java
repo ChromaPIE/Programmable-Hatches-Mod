@@ -259,14 +259,16 @@ public class TileStorageProxy extends TileEntity
                     return items.getChannel();
                 }
 
+                @SuppressWarnings("rawtypes")
                 @Override
-                public void addListener(IMEMonitorHandlerReceiver<IAEItemStack> l, Object verificationToken) {
+                public void addListener(IMEMonitorHandlerReceiver l, Object verificationToken) {
                     items.addListener(l, verificationToken);
 
                 }
 
+                @SuppressWarnings("rawtypes")
                 @Override
-                public void removeListener(IMEMonitorHandlerReceiver<IAEItemStack> l) {
+                public void removeListener(IMEMonitorHandlerReceiver l) {
                     items.removeListener(l);
 
                 }
@@ -543,14 +545,16 @@ public class TileStorageProxy extends TileEntity
                     return fluids.getChannel();
                 }
 
+                @SuppressWarnings("rawtypes")
                 @Override
-                public void addListener(IMEMonitorHandlerReceiver<IAEFluidStack> l, Object verificationToken) {
+                public void addListener(IMEMonitorHandlerReceiver l, Object verificationToken) {
                     fluids.addListener(l, verificationToken);
 
                 }
 
+                @SuppressWarnings("rawtypes")
                 @Override
-                public void removeListener(IMEMonitorHandlerReceiver<IAEFluidStack> l) {
+                public void removeListener(IMEMonitorHandlerReceiver l) {
                     fluids.removeListener(l);
 
                 }
