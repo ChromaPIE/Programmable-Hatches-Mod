@@ -10,6 +10,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+//import com.glodblock.github.client.gui.GuiDualInterface;
+//import com.glodblock.github.client.gui.container.ContainerDualInterface;
+
 import appeng.api.AEApi;
 import appeng.api.implementations.IUpgradeableHost;
 import appeng.client.gui.implementations.GuiInterface;

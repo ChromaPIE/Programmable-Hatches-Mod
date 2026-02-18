@@ -163,6 +163,7 @@ public static boolean loaded;
         retLate.add("eucrafting." + "MixinCoverInsertion");
         if (FMLLaunchHandler.side()
             .isClient()) {
+            retLate.add("eucrafting." + "MixinWirelessRename");
         }
         retLate.add("eucrafting." + "MixinInvTracker");
         retLate.add("MixinAEAdaptorSkipStackSizeCheck");
@@ -217,12 +218,15 @@ public static boolean loaded;
             	
             	//  wo/ fluid
                 retLate.add("MixinPatternEncodingCiruitSpecialTreatment2"); 
+                //  with fluid
+               //legacy
+                retLate.add("part2.MixinPatternEncodingCiruitSpecialTreatmentNeo");
                 
                 
             }
             retLate.add("part2.MixinGTCopiedBlockTextureRender");
         } ; 
-        retLate.add("part2.MixinFixSolidfier");
+        //retLate.add("part2.MixinFixSolidfier");
         retLate.add("part2.MixinOptimize");
         retLate.add("part2.MixinProcessLogicReset");
         retLate.add("cpu.MixinCache");

@@ -216,7 +216,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 	public boolean mMultiFluid;
 
 	public DualInputHatch(int id, String name, String nameRegional, int tier, boolean mMultiFluid, String... optional) {
-		this(id, name, nameRegional, tier, getSlots(tier) + 1, mMultiFluid, optional);
+		this(id, name, nameRegional, tier, ProghatchesUtil.getSlots(tier) + 1, mMultiFluid, optional);
 
 	}
 
@@ -291,7 +291,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 
 	public DualInputHatch(String mName, byte mTier, String[] mDescriptionArray, ITexture[][][] mTextures,
 			boolean mMultiFluid) {
-		super(mName, mTier, mDescriptionArray, mTextures);
+		super(mName, mTier, ProghatchesUtil.getSlots(mTier) + 1,mDescriptionArray, mTextures);
 		this.disableSort = true;
 		this.mMultiFluid = mMultiFluid;
 		initTierBasedField();
@@ -858,7 +858,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 			// for (int slot :
 			// this.getAccessibleSlotsFromSide(ForgeDirection.UNKNOWN.ordinal()))
 			// {
-			for (int slot : (Iterable<Integer>) () -> IntStream.range(0, getSlots(mTier)).iterator()) {
+			for (int slot : (Iterable<Integer>) () -> IntStream.range(0, ProghatchesUtil.getSlots(mTier)).iterator()) {
 				ItemStack is = getStackInSlot(slot);
 				if (is == null)
 					continue;
@@ -876,7 +876,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 		DualInputHatch meta = this;
 		ArrayList<ItemStack> isa = new ArrayList<>();
 		int[] slots = (this).getAccessibleSlotsFromSide(ForgeDirection.UNKNOWN.ordinal());
-		for (int slot : (Iterable<Integer>) () -> IntStream.range(0, getSlots(mTier)).iterator()) {
+		for (int slot : (Iterable<Integer>) () -> IntStream.range(0, ProghatchesUtil.getSlots(mTier)).iterator()) {
 			ItemStack is = this.mInventory[slot];
 			if (is == null)
 				continue;
@@ -927,7 +927,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 
 	@Override
 	public int getCircuitSlot() {
-		return getSlots(slotTierOverride(mTier));
+		return ProghatchesUtil.getSlots(slotTierOverride(mTier));
 	}
 
 	@Override
@@ -1982,8 +1982,22 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 
 	public static HashSet<Class> mui2 = new HashSet();
 	{
-		if (this.getClass().getAnnotation(MUI2Compat.class) != null) {
-			mui2.add(this.getClass());
+		
+		
+		Class c=this.getClass();
+		while(c.isLocalClass()||c.isMemberClass()||c.isAnonymousClass()) {
+			
+			c=c.getSuperclass();
+		}
+		if (c.getAnnotation(MUI2Compat.class) != null) {
+			mui2.add(c);
+			
+			
+		}else {
+			
+			MyMod.LOG.info(c+" "+(c==this.getClass()?"":"("+this.getClass()+")")+" has no MUI2 support.");
+			
+			
 		}
 		;
 	}
@@ -2964,12 +2978,12 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 						index -> new ItemSlot().slot((ModularSlot(inventoryHandler, index)).slotGroup(sg))).pos(0,0);
 				fluidslot_pos_index = 3;
 			}
-			genSlotsFluid = () -> new Grid().coverChildren().pos(0, 0).mapTo(1, mStoredFluid.length,
+			genSlotsFluid = () -> new Grid().coverChildren().pos(0, 0).mapTo(1*fluidSlotsPerRow(), mStoredFluid.length,
 					index -> new FluidSlot().syncHandler(new FluidSlotSyncHandler(mStoredFluid[index])));
 
-			ScrollWidget<?> list = new ScrollWidget<>(new VerticalScrollData()).size(18);
-			list.getScrollArea().getScrollY().setScrollSize(18 * mStoredFluid.length);
-			list.size(18, 18 * 4);
+			ScrollWidget<?> list = new ScrollWidget<>(new VerticalScrollData()).size(18*fluidSlotsPerRow());
+			list.getScrollArea().getScrollY().setScrollSize(18 * mStoredFluid.length/fluidSlotsPerRow());
+			list.size(18*fluidSlotsPerRow(), 18 * 4);
 			list.child(genSlotsFluid.get());
 			list.pos(fluidslot_pos_table[fluidslot_pos_index].x, fluidslot_pos_table[fluidslot_pos_index].y);
 			builder.child(list);
@@ -2977,7 +2991,7 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
 
 			ScrollWidget<?> listX = new ScrollWidget<>(new VerticalScrollData()).size(18);
 			listX.getScrollArea().getScrollY().setScrollSize(18 * 4*page());
-			listX.size(18*4, 18 * 4);
+			listX.size(18*(fluidslot_pos_index+1), 18 * 4);
 			listX.child(genSlots.get());
 			listX.pos(52, 7);
 			builder.child(listX);
@@ -3497,5 +3511,24 @@ public class DualInputHatch extends MTEHatchInputBus implements IConfigurationCi
         }
 
     }
+	
+	@Override
+	public int getGUIWidth() {
+		
+		return super.getGUIWidth();
+	}
+	@Override
+	public int getGUIHeight() {
 
+		return super.getGUIHeight();
+	}
+
+	// No more slots after HV tier
+	public int getOffsetX() {
+	    return 0;
+	}
+
+	public int getOffsetY() {
+	    return 0;
+	}
 }
